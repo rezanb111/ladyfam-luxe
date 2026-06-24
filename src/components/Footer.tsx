@@ -41,13 +41,10 @@ export function Footer() {
 
         <div className="mt-12 border-t border-[oklch(0.85_0.15_85/0.18)] pt-6 text-center text-xs text-[oklch(0.8_0.04_340)] space-y-3">
           <p className="text-[oklch(0.92_0.12_85)] font-medium">
-            ایده و اجرا از: <span className="text-gold-gradient font-bold">رضا نبوی</span> و <span className="text-gold-gradient font-bold">آیلین گودرزی</span> · هلدینگ نبوی
+            ایده و اجرا از: <span className="text-gold-gradient font-bold">رضا نبوی</span> و <span className="text-gold-gradient font-bold">آیلین گودرزی</span>
           </p>
           {/* protected signature image */}
-          <div
-            className="relative mx-auto inline-block"
-            onContextMenu={(e) => e.preventDefault()}
-          >
+          <div className="relative mx-auto inline-block" onContextMenu={(e) => e.preventDefault()}>
             <img
               src="https://i.ibb.co/kVfgfwDm/IMG-20260601-143049-522.jpg"
               alt=""
@@ -55,11 +52,9 @@ export function Footer() {
               draggable={false}
               style={{ filter: "drop-shadow(0 0 8px oklch(0.85 0.15 85 / 0.5))" }}
             />
-            <div
-              className="absolute inset-0 cursor-default"
+            <div className="absolute inset-0 cursor-default"
               onContextMenu={(e) => e.preventDefault()}
-              onMouseDown={(e) => e.preventDefault()}
-            />
+              onMouseDown={(e) => e.preventDefault()} />
           </div>
           <p className="opacity-70">© {new Date().getFullYear()} حقوق برای لیدی فم محفوظ است.</p>
         </div>
