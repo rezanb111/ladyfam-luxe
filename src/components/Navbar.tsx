@@ -7,6 +7,7 @@ import { useCart, useAuth } from "@/lib/store";
 const LINKS = [
   { to: "/", label: "خانه" },
   { to: "/shop", label: "فروشگاه" },
+  { to: "/bridal", label: "عروس" },
   { to: "/lingerie", label: "لباس زیر" },
   { to: "/about", label: "درباره ما" },
   { to: "/contact", label: "تماس" },

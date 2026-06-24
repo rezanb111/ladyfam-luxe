@@ -14,6 +14,7 @@ export type Product = {
   sizes?: string[];
   description: string;
   isLingerie: boolean;
+  isBridal?: boolean;
 };
 
 export const PRODUCTS = data as Product[];
@@ -39,3 +40,8 @@ export const getProduct = (id: number) =>
   PRODUCTS.find((p) => p.id === id);
 
 export const featuredLingerie = PRODUCTS.filter((p) => p.isLingerie).slice(0, 24);
+export const BRIDAL = PRODUCTS.filter((p) => p.isBridal);
+export const BRIDAL_CATEGORIES = Array.from(new Set(BRIDAL.map((p) => p.category))).map((c) => ({
+  name: c,
+  count: BRIDAL.filter((p) => p.category === c).length,
+}));
