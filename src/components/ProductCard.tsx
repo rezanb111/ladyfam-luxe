@@ -1,9 +1,21 @@
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { SmokyFrame } from "./SmokyFrame";
 import { formatToman, type Product } from "@/lib/products";
 
-export function ProductCard({ product, index = 0 }: { product: Product; index?: number }) {
+export function ProductCard({
+  product,
+  index = 0,
+  spoiler = false,
+}: {
+  product: Product;
+  index?: number;
+  spoiler?: boolean;
+}) {
+  const [revealed, setRevealed] = useState(false);
+  const isHidden = spoiler && !revealed;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -22,9 +34,23 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
               decoding="async"
               draggable={false}
               onContextMenu={(e) => e.preventDefault()}
-              className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+              className={`h-full w-full object-cover transition-all duration-700 ease-out group-hover:scale-110 ${
+                isHidden ? "blur-[22px] scale-110 brightness-75" : ""
+              }`}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[oklch(0.1_0.03_350/0.85)] via-transparent to-transparent" />
+            {isHidden && (
+              <button
+                type="button"
+                onClick={(e) => { e.preventDefault(); setRevealed(true); }}
+                className="absolute inset-0 z-10 spoiler-overlay flex items-center justify-center"
+                aria-label="نمایش تصویر"
+              >
+                <span className="glass-pink rounded-full px-4 py-1.5 text-[11px] font-bold text-[oklch(0.97_0.05_340)] backdrop-blur-md">
+                  👁 نمایش
+                </span>
+              </button>
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-[oklch(0.1_0.03_350/0.85)] via-transparent to-transparent pointer-events-none" />
             <div className="absolute top-3 right-3 glass-pink rounded-full px-3 py-1 text-[10px] font-bold text-[oklch(0.95_0.1_90)]">
               {product.category}
             </div>

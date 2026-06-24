@@ -37,17 +37,49 @@ export const useCart = create<CartState>()(
   )
 );
 
+export type AuthUser = {
+  name: string;
+  email: string;
+  phone: string;
+  isVerified: boolean;
+};
+
 type AuthState = {
-  user: { name: string; email: string } | null;
+  user: AuthUser | null;
+  pendingCode: string | null;
+  signup: (data: { name: string; email: string; phone: string }) => string;
+  verify: (code: string) => boolean;
   login: (email: string, name?: string) => void;
   logout: () => void;
 };
+
+const genCode = () => String(Math.floor(100000 + Math.random() * 900000));
+
 export const useAuth = create<AuthState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       user: null,
-      login: (email, name) => set({ user: { email, name: name || email.split("@")[0] } }),
-      logout: () => set({ user: null }),
+      pendingCode: null,
+      signup: ({ name, email, phone }) => {
+        const code = genCode();
+        set({
+          user: { name, email, phone, isVerified: false },
+          pendingCode: code,
+        });
+        return code;
+      },
+      verify: (code) => {
+        const { pendingCode, user } = get();
+        if (!user || !pendingCode || code !== pendingCode) return false;
+        set({ user: { ...user, isVerified: true }, pendingCode: null });
+        return true;
+      },
+      login: (email, name) =>
+        set({
+          user: { email, name: name || email.split("@")[0], phone: "", isVerified: true },
+          pendingCode: null,
+        }),
+      logout: () => set({ user: null, pendingCode: null }),
     }),
     { name: "ladyfam-auth" }
   )
